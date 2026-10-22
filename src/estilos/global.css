@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-fondo font-texto text-tinta antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-titulo font-semibold;
+  }
+
+  :focus-visible {
+    outline: 3px solid #5b4fc4;
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,1 @@
+-- Datos iniciales (se completa en la fase 2: usuaria administradora).
