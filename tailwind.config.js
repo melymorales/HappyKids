@@ -15,6 +15,8 @@ export default {
         tinta: '#3B3354',
         suave: '#6B6280',
         fondo: '#FBFAFF',
+        // Borde de campos de formulario (contraste suficiente contra blanco)
+        borde: '#8B80C4',
         // Pasteles de la interfaz
         pastel: {
           lavanda: '#ECE8FF',

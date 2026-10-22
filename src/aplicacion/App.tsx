@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider } from 'react-router-dom'
 import { enrutador } from '@/aplicacion/rutas'
+import { ProveedorSesion } from '@/nucleo/autenticacion/ProveedorSesion'
 
 const clienteConsultas = new QueryClient({
   defaultOptions: {
@@ -11,7 +12,9 @@ const clienteConsultas = new QueryClient({
 export function App() {
   return (
     <QueryClientProvider client={clienteConsultas}>
-      <RouterProvider router={enrutador} />
+      <ProveedorSesion>
+        <RouterProvider router={enrutador} />
+      </ProveedorSesion>
     </QueryClientProvider>
   )
 }

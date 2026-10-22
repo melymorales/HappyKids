@@ -1,1 +1,10 @@
--- Datos iniciales (se completa en la fase 2: usuaria administradora).
+-- Datos iniciales.
+-- Primera administradora (fase 2):
+--   1. Supabase > Authentication > Users > Add user > Create new user
+--      (correo + contraseña temporal, con "Auto Confirm User" activado).
+--   2. Ejecutar esto con el correo y el nombre reales:
+--
+-- insert into public.perfiles (id, rol, nombre_completo, correo, debe_cambiar_clave)
+-- select id, 'admin', 'NOMBRE COMPLETO', email, true
+-- from auth.users
+-- where email = 'correo@ejemplo.com';
