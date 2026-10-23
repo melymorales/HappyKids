@@ -7,6 +7,8 @@ export function LayoutAdministradora() {
       enlaces={[
         { a: '/administradora', texto: 'Panel', exacto: true },
         { a: '/administradora/empleados', texto: 'Empleados' },
+        { a: '/administradora/asistencia', texto: 'Asistencia' },
+        { a: '/administradora/configuracion', texto: 'Configuración' },
       ]}
     />
   )

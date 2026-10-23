@@ -3,6 +3,9 @@ import { LayoutAdministradora } from '@/aplicacion/layouts/LayoutAdministradora'
 import { LayoutEmpleado } from '@/aplicacion/layouts/LayoutEmpleado'
 import { PaginaInicio } from '@/aplicacion/paginas/PaginaInicio'
 import { PaginaNoEncontrada } from '@/aplicacion/paginas/PaginaNoEncontrada'
+import { PaginaAsistencia } from '@/funcionalidades/asistencia/administradora/PaginaAsistencia'
+import { PaginaConfiguracionCentro } from '@/funcionalidades/asistencia/administradora/PaginaConfiguracionCentro'
+import { PaginaMarcarAsistencia } from '@/funcionalidades/asistencia/empleado/PaginaMarcarAsistencia'
 import { PaginaCambiarClave } from '@/funcionalidades/autenticacion/paginas/PaginaCambiarClave'
 import { PaginaIngresar } from '@/funcionalidades/autenticacion/paginas/PaginaIngresar'
 import { PaginaDetalleEmpleado } from '@/funcionalidades/empleados/administradora/PaginaDetalleEmpleado'
@@ -39,6 +42,8 @@ export const enrutador = createBrowserRouter([
           { path: 'empleados', element: <PaginaEmpleados /> },
           { path: 'empleados/nuevo', element: <PaginaNuevoEmpleado /> },
           { path: 'empleados/:id', element: <PaginaDetalleEmpleado /> },
+          { path: 'asistencia', element: <PaginaAsistencia /> },
+          { path: 'configuracion', element: <PaginaConfiguracionCentro /> },
         ],
       },
     ],
@@ -53,6 +58,7 @@ export const enrutador = createBrowserRouter([
         element: <LayoutEmpleado />,
         children: [
           { index: true, element: <PaginaInicioEmpleado /> },
+          { path: 'asistencia', element: <PaginaMarcarAsistencia /> },
           { path: 'perfil', element: <PaginaMiPerfil /> },
         ],
       },

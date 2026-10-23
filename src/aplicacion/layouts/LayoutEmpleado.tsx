@@ -6,6 +6,7 @@ export function LayoutEmpleado() {
     <MarcoAplicacion
       enlaces={[
         { a: '/empleado', texto: 'Inicio', exacto: true },
+        { a: '/empleado/asistencia', texto: 'Asistencia' },
         { a: '/empleado/perfil', texto: 'Mi perfil' },
       ]}
     />

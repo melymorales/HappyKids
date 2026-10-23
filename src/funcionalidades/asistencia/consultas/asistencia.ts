@@ -1,0 +1,136 @@
+import { inicioDiaCR, sumarDias } from '@/compartido/utilidades/formatoFechas'
+import { obtenerClienteSupabase } from '@/nucleo/supabase/clienteSupabase'
+import { mensajeDeError } from '@/nucleo/supabase/mensajesError'
+import type {
+  Centro,
+  DeteccionRed,
+  Jornada,
+  Marca,
+  MarcaDetalle,
+  PersonalSimple,
+  PosicionMarca,
+  RedPermitida,
+  RespuestaMarca,
+  TipoMarca,
+} from '@/funcionalidades/asistencia/tipos'
+
+// ------------------------------- Empleadas -------------------------------
+
+export async function registrarMarca(
+  tipo: TipoMarca,
+  posicion: PosicionMarca | null,
+): Promise<RespuestaMarca> {
+  const { data, error } = await obtenerClienteSupabase().rpc('registrar_marca', {
+    p_tipo: tipo,
+    p_lat: posicion?.lat ?? null,
+    p_lng: posicion?.lng ?? null,
+    p_precision_m: posicion?.precision_m ?? null,
+  })
+  if (error) throw new Error(mensajeDeError(error, 'No pudimos registrar tu marca. Inténtalo de nuevo.'))
+  return data as RespuestaMarca
+}
+
+export async function listarMisMarcas(): Promise<Marca[]> {
+  const { data, error } = await obtenerClienteSupabase()
+    .from('marcas_asistencia')
+    .select('id, tipo, marcada_en, bandera_ubicacion')
+    .order('marcada_en', { ascending: false })
+    .limit(20)
+  if (error) throw new Error('No pudimos cargar tus marcas.')
+  return (data ?? []) as Marca[]
+}
+
+/** Horas por día. Sin `empleadoId`, devuelve las de todas las personas que el usuario puede ver. */
+export async function listarJornadas(
+  desde: string,
+  hasta: string,
+  empleadoId: string | null,
+): Promise<Jornada[]> {
+  const { data, error } = await obtenerClienteSupabase().rpc('jornadas', {
+    p_desde: desde,
+    p_hasta: hasta,
+    p_empleado_id: empleadoId,
+  })
+  if (error) throw new Error('No pudimos cargar las horas trabajadas.')
+  return (data ?? []) as Jornada[]
+}
+
+// ----------------------------- Administradora -----------------------------
+
+export async function listarMarcasDetalle(
+  desde: string,
+  hasta: string,
+  empleadoId: string | null,
+): Promise<MarcaDetalle[]> {
+  const base = obtenerClienteSupabase()
+    .from('marcas_detalle')
+    .select('*')
+    .gte('marcada_en', inicioDiaCR(desde))
+    .lt('marcada_en', inicioDiaCR(sumarDias(hasta, 1)))
+    .order('marcada_en', { ascending: false })
+    .limit(500)
+  const consulta = empleadoId ? base.eq('empleado_id', empleadoId) : base
+  const { data, error } = await consulta
+  if (error) throw new Error('No pudimos cargar las marcas.')
+  return (data ?? []) as MarcaDetalle[]
+}
+
+/** Lista de personas para los filtros (se lee de la vista de empleados). */
+export async function listarPersonal(): Promise<PersonalSimple[]> {
+  const { data, error } = await obtenerClienteSupabase()
+    .from('empleados_resumen')
+    .select('id, nombre_completo, activo')
+    .order('nombre_completo', { ascending: true })
+  if (error) throw new Error('No pudimos cargar a los empleados.')
+  return (data ?? []) as PersonalSimple[]
+}
+
+export async function obtenerCentro(): Promise<Centro | null> {
+  const { data, error } = await obtenerClienteSupabase()
+    .from('centro')
+    .select('nombre, lat, lng, radio_m')
+    .eq('id', 1)
+    .maybeSingle()
+  if (error) throw new Error('No pudimos cargar la ubicación del kínder.')
+  return (data as Centro | null) ?? null
+}
+
+export async function actualizarCentro(datos: { lat: number; lng: number; radio_m: number }): Promise<void> {
+  const { error } = await obtenerClienteSupabase().rpc('actualizar_centro', {
+    p_lat: datos.lat,
+    p_lng: datos.lng,
+    p_radio_m: datos.radio_m,
+  })
+  if (error) throw new Error(mensajeDeError(error, 'No pudimos guardar la ubicación.'))
+}
+
+export async function listarRedes(): Promise<RedPermitida[]> {
+  const { data, error } = await obtenerClienteSupabase()
+    .from('ips_permitidas')
+    .select('id, etiqueta, red, activa, creado_en')
+    .order('creado_en', { ascending: false })
+  if (error) throw new Error('No pudimos cargar las redes permitidas.')
+  return (data ?? []) as RedPermitida[]
+}
+
+export async function detectarMiRed(): Promise<DeteccionRed> {
+  const { data, error } = await obtenerClienteSupabase().rpc('detectar_mi_red')
+  if (error) throw new Error(mensajeDeError(error, 'No pudimos detectar tu red.'))
+  return data as DeteccionRed
+}
+
+export async function agregarRed(datos: { etiqueta: string; red: string }): Promise<void> {
+  const { error } = await obtenerClienteSupabase().rpc('agregar_red_permitida', {
+    p_etiqueta: datos.etiqueta,
+    p_red: datos.red,
+  })
+  if (error) throw new Error(mensajeDeError(error, 'No pudimos guardar la red.'))
+}
+
+export async function cambiarEstadoRed(id: string, activa: boolean): Promise<void> {
+  const { error } = await obtenerClienteSupabase().rpc('cambiar_estado_red', {
+    p_id: id,
+    p_activa: activa,
+  })
+  if (error) throw new Error(mensajeDeError(error, 'No pudimos cambiar el estado de la red.'))
+}
