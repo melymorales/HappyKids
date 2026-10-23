@@ -1,0 +1,6 @@
+# Configuración mínima para el CLI de Supabase (solo hace falta si despliegas por línea de comandos).
+project_id = "happy-kids"
+
+# Esta función verifica por sí misma la sesión y que sea una administradora.
+[functions.gestionar-usuarios]
+verify_jwt = false

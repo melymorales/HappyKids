@@ -5,6 +5,10 @@ import { PaginaInicio } from '@/aplicacion/paginas/PaginaInicio'
 import { PaginaNoEncontrada } from '@/aplicacion/paginas/PaginaNoEncontrada'
 import { PaginaCambiarClave } from '@/funcionalidades/autenticacion/paginas/PaginaCambiarClave'
 import { PaginaIngresar } from '@/funcionalidades/autenticacion/paginas/PaginaIngresar'
+import { PaginaDetalleEmpleado } from '@/funcionalidades/empleados/administradora/PaginaDetalleEmpleado'
+import { PaginaEmpleados } from '@/funcionalidades/empleados/administradora/PaginaEmpleados'
+import { PaginaNuevoEmpleado } from '@/funcionalidades/empleados/administradora/PaginaNuevoEmpleado'
+import { PaginaMiPerfil } from '@/funcionalidades/empleados/empleado/PaginaMiPerfil'
 import { PaginaPanel } from '@/funcionalidades/panel/administradora/PaginaPanel'
 import { PaginaInicioEmpleado } from '@/funcionalidades/panel/empleado/PaginaInicioEmpleado'
 import { RutaProtegida } from '@/nucleo/autenticacion/guardas/RutaProtegida'
@@ -30,7 +34,12 @@ export const enrutador = createBrowserRouter([
       {
         path: '/administradora',
         element: <LayoutAdministradora />,
-        children: [{ index: true, element: <PaginaPanel /> }],
+        children: [
+          { index: true, element: <PaginaPanel /> },
+          { path: 'empleados', element: <PaginaEmpleados /> },
+          { path: 'empleados/nuevo', element: <PaginaNuevoEmpleado /> },
+          { path: 'empleados/:id', element: <PaginaDetalleEmpleado /> },
+        ],
       },
     ],
   },
@@ -42,7 +51,10 @@ export const enrutador = createBrowserRouter([
       {
         path: '/empleado',
         element: <LayoutEmpleado />,
-        children: [{ index: true, element: <PaginaInicioEmpleado /> }],
+        children: [
+          { index: true, element: <PaginaInicioEmpleado /> },
+          { path: 'perfil', element: <PaginaMiPerfil /> },
+        ],
       },
     ],
   },
