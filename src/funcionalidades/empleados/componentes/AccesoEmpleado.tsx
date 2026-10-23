@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BotonPrincipal } from '@/compartido/componentes/BotonPrincipal'
 import { BotonSecundario } from '@/compartido/componentes/BotonSecundario'
 import { CampoTexto } from '@/compartido/componentes/CampoTexto'
+import { DialogoConfirmacion } from '@/compartido/componentes/DialogoConfirmacion'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { PanelClaveTemporal } from '@/funcionalidades/empleados/componentes/PanelClaveTemporal'
 import { validarCorreo } from '@/funcionalidades/empleados/esquemas/validarEmpleado'
@@ -20,15 +21,13 @@ export function AccesoEmpleado({ empleado }: Props) {
   const cambiarCorreo = useCambiarCorreo()
   const [editandoCorreo, setEditandoCorreo] = useState(false)
   const [correoNuevo, setCorreoNuevo] = useState(empleado.correo)
+  const [confirmandoClave, setConfirmandoClave] = useState(false)
   const [claveTemporal, setClaveTemporal] = useState<string | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   async function restablecerClave() {
-    const confirmado = window.confirm(
-      `Se creará una contraseña temporal nueva para ${empleado.nombre_completo}. La anterior dejará de funcionar. ¿Continuar?`,
-    )
-    if (!confirmado) return
+    setConfirmandoClave(false)
     setError(null)
     setAviso(null)
     try {
@@ -87,7 +86,7 @@ export function AccesoEmpleado({ empleado }: Props) {
           >
             Cambiar correo
           </BotonSecundario>
-          <BotonSecundario alPulsar={() => void restablecerClave()} deshabilitado={restablecer.isPending}>
+          <BotonSecundario alPulsar={() => setConfirmandoClave(true)} deshabilitado={restablecer.isPending}>
             {restablecer.isPending ? 'Restableciendo…' : 'Restablecer contraseña'}
           </BotonSecundario>
         </div>
@@ -112,6 +111,20 @@ export function AccesoEmpleado({ empleado }: Props) {
           />
         )}
       </div>
+
+      <DialogoConfirmacion
+        abierto={confirmandoClave}
+        titulo="¿Restablecer la contraseña?"
+        mensaje={
+          <>
+            Se creará una contraseña temporal nueva para <strong>{empleado.nombre_completo}</strong>. La
+            anterior dejará de funcionar.
+          </>
+        }
+        textoConfirmar="Restablecer"
+        alConfirmar={() => void restablecerClave()}
+        alCancelar={() => setConfirmandoClave(false)}
+      />
     </Tarjeta>
   )
 }

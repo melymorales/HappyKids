@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { InsigniaEstado } from '@/compartido/componentes/InsigniaEstado'
 import { formatoColones } from '@/compartido/utilidades/formatoColones'
 import {
@@ -12,6 +12,8 @@ interface Props {
 }
 
 export function TablaEmpleados({ empleados }: Props) {
+  const navegar = useNavigate()
+
   return (
     <div className="overflow-x-auto rounded-3xl border-2 border-pastel-lavanda bg-white">
       <table className="w-full text-left text-sm">
@@ -26,10 +28,16 @@ export function TablaEmpleados({ empleados }: Props) {
         </thead>
         <tbody>
           {empleados.map((e) => (
-            <tr key={e.id} className="border-b border-pastel-lavanda last:border-b-0">
+            // Toda la fila lleva al detalle; el enlace del nombre se conserva para teclado y lectores de pantalla.
+            <tr
+              key={e.id}
+              onClick={() => navegar(`/administradora/empleados/${e.id}`)}
+              className="cursor-pointer border-b border-pastel-lavanda last:border-b-0 hover:bg-pastel-lavanda/50"
+            >
               <td className="px-4 py-3">
                 <Link
                   to={`/administradora/empleados/${e.id}`}
+                  onClick={(evento) => evento.stopPropagation()}
                   className="font-semibold text-violeta underline"
                 >
                   {e.nombre_completo}

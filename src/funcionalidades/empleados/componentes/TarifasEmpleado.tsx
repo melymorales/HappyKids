@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { formatoColones } from '@/compartido/utilidades/formatoColones'
 import { formatoFechaCalendario } from '@/compartido/utilidades/formatoFechas'
@@ -15,6 +16,8 @@ interface Props {
 
 export function TarifasEmpleado({ empleado }: Props) {
   const { data: tarifas, isLoading, isError } = useTarifasEmpleado(empleado.id)
+  const [formularioAbierto, setFormularioAbierto] = useState(false)
+  const [aviso, setAviso] = useState<string | null>(null)
 
   return (
     <Tarjeta titulo="Modalidad de pago y tarifa">
@@ -65,10 +68,33 @@ export function TarifasEmpleado({ empleado }: Props) {
         </div>
       )}
 
-      <details className="mt-5 rounded-2xl bg-pastel-lavanda p-4">
+      <div aria-live="polite">
+        {aviso && (
+          <p role="status" className="mt-4 rounded-xl bg-pastel-menta px-4 py-3 text-sm">
+            {aviso}
+          </p>
+        )}
+      </div>
+
+      <details
+        open={formularioAbierto}
+        onToggle={(evento) => {
+          const abierto = evento.currentTarget.open
+          setFormularioAbierto(abierto)
+          if (abierto) setAviso(null)
+        }}
+        className="mt-5 rounded-2xl bg-pastel-lavanda p-4"
+      >
         <summary className="cursor-pointer font-semibold">Agregar una tarifa nueva</summary>
         <div className="mt-4">
-          <FormularioTarifa empleadoId={empleado.id} modalidadInicial={empleado.modalidad_pago} />
+          <FormularioTarifa
+            empleadoId={empleado.id}
+            modalidadInicial={empleado.modalidad_pago}
+            alGuardar={() => {
+              setFormularioAbierto(false)
+              setAviso('Tarifa guardada.')
+            }}
+          />
         </div>
       </details>
     </Tarjeta>

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { BotonPrincipal } from '@/compartido/componentes/BotonPrincipal'
 import { CampoTexto } from '@/compartido/componentes/CampoTexto'
+import { EnlaceBoton } from '@/compartido/componentes/EnlaceBoton'
 import { Logotipo } from '@/compartido/componentes/Logotipo'
 import { validarNuevaClave } from '@/funcionalidades/autenticacion/esquemas/validarClave'
 import { rutaInicioPorRol } from '@/nucleo/autenticacion/rutasPorRol'
@@ -18,6 +19,8 @@ export function PaginaCambiarClave() {
   if (!perfil) return <Navigate to="/ingresar" replace />
 
   const obligatorio = perfil.debe_cambiar_clave
+  // Un empleado vuelve a "Mi perfil"; la administradora, a su panel.
+  const destinoCancelar = perfil.rol === 'empleado' ? '/empleado/perfil' : rutaInicioPorRol(perfil.rol)
 
   async function alEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault()
@@ -78,6 +81,13 @@ export function PaginaCambiarClave() {
         <BotonPrincipal deshabilitado={enviando}>
           {enviando ? 'Guardando…' : 'Guardar contraseña'}
         </BotonPrincipal>
+
+        {/* Mientras la contraseña temporal sea obligatoria de cambiar, no se puede cancelar. */}
+        {!obligatorio && (
+          <EnlaceBoton a={destinoCancelar} variante="secundario" anchoCompleto>
+            Cancelar
+          </EnlaceBoton>
+        )}
 
         <button
           type="button"

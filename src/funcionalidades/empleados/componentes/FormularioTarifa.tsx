@@ -14,19 +14,19 @@ import {
 interface Props {
   empleadoId: string
   modalidadInicial: ModalidadPago | null
+  /** Se llama cuando la tarifa se guardó correctamente. */
+  alGuardar: () => void
 }
 
-export function FormularioTarifa({ empleadoId, modalidadInicial }: Props) {
+export function FormularioTarifa({ empleadoId, modalidadInicial, alGuardar }: Props) {
   const agregar = useAgregarTarifa()
   const [modalidad, setModalidad] = useState<ModalidadPago>(modalidadInicial ?? 'por_hora')
   const [tarifa, setTarifa] = useState('')
   const [vigenteDesde, setVigenteDesde] = useState(fechaHoyCR())
   const [error, setError] = useState<string | null>(null)
-  const [guardada, setGuardada] = useState(false)
 
   async function enviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault()
-    setGuardada(false)
     const problema = validarTarifaNueva(tarifa, vigenteDesde)
     if (problema) {
       setError(problema)
@@ -41,7 +41,7 @@ export function FormularioTarifa({ empleadoId, modalidadInicial }: Props) {
         vigente_desde: vigenteDesde,
       })
       setTarifa('')
-      setGuardada(true)
+      alGuardar()
     } catch (e) {
       setError(e instanceof Error ? e.message : 'No pudimos guardar la tarifa.')
     }
@@ -77,11 +77,6 @@ export function FormularioTarifa({ empleadoId, modalidadInicial }: Props) {
         {error && (
           <p role="alert" className="rounded-xl bg-pastel-rosa px-4 py-3 text-sm">
             {error}
-          </p>
-        )}
-        {guardada && (
-          <p role="status" className="rounded-xl bg-pastel-menta px-4 py-3 text-sm">
-            Tarifa guardada.
           </p>
         )}
       </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BotonSecundario } from '@/compartido/componentes/BotonSecundario'
+import { BotonMorado } from '@/compartido/componentes/BotonMorado'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { formatoFechaCalendario } from '@/compartido/utilidades/formatoFechas'
 import { FormularioEmpleado } from '@/funcionalidades/empleados/componentes/FormularioEmpleado'
@@ -68,7 +68,7 @@ export function DatosEmpleado({ empleado }: Props) {
         </div>
       </dl>
       <div className="mt-4">
-        <BotonSecundario alPulsar={() => setEditando(true)}>Editar datos</BotonSecundario>
+        <BotonMorado alPulsar={() => setEditando(true)}>Editar datos</BotonMorado>
       </div>
     </Tarjeta>
   )

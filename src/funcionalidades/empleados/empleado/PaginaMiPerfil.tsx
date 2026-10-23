@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { EnlaceBoton } from '@/compartido/componentes/EnlaceBoton'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { formatoColones } from '@/compartido/utilidades/formatoColones'
 import { formatoFechaCalendario } from '@/compartido/utilidades/formatoFechas'
@@ -49,9 +49,9 @@ export function PaginaMiPerfil() {
           </div>
         </dl>
       </Tarjeta>
-      <Link to="/cambiar-clave" className="text-sm font-semibold text-violeta underline">
-        Cambiar mi contraseña
-      </Link>
+      <div>
+        <EnlaceBoton a="/cambiar-clave">Cambiar contraseña</EnlaceBoton>
+      </div>
     </section>
   )
 }

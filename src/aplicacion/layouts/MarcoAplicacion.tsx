@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { BotonMorado } from '@/compartido/componentes/BotonMorado'
 import { Logotipo } from '@/compartido/componentes/Logotipo'
 import { useSesion } from '@/nucleo/autenticacion/useSesion'
 
@@ -41,13 +42,7 @@ export function MarcoAplicacion({ enlaces }: Props) {
 
           <div className="flex items-center gap-3 text-sm">
             <span className="text-suave">{perfil?.nombre_completo}</span>
-            <button
-              type="button"
-              onClick={() => void cerrarSesion()}
-              className="rounded-xl border-2 border-borde px-3 py-1.5 font-semibold text-tinta"
-            >
-              Salir
-            </button>
+            <BotonMorado alPulsar={() => void cerrarSesion()}>Salir</BotonMorado>
           </div>
         </div>
       </header>
