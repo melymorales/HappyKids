@@ -14,6 +14,10 @@ import { PaginaDetalleEmpleado } from '@/funcionalidades/empleados/administrador
 import { PaginaEmpleados } from '@/funcionalidades/empleados/administradora/PaginaEmpleados'
 import { PaginaNuevoEmpleado } from '@/funcionalidades/empleados/administradora/PaginaNuevoEmpleado'
 import { PaginaMiPerfil } from '@/funcionalidades/empleados/empleado/PaginaMiPerfil'
+import { PaginaDetalleQuincena } from '@/funcionalidades/nomina/administradora/PaginaDetalleQuincena'
+import { PaginaGrupos } from '@/funcionalidades/nomina/administradora/PaginaGrupos'
+import { PaginaNomina } from '@/funcionalidades/nomina/administradora/PaginaNomina'
+import { PaginaMisQuincenas } from '@/funcionalidades/nomina/empleado/PaginaMisQuincenas'
 import { PaginaPanel } from '@/funcionalidades/panel/administradora/PaginaPanel'
 import { PaginaInicioEmpleado } from '@/funcionalidades/panel/empleado/PaginaInicioEmpleado'
 import { RutaProtegida } from '@/nucleo/autenticacion/guardas/RutaProtegida'
@@ -47,6 +51,9 @@ export const enrutador = createBrowserRouter([
           { path: 'asistencia', element: <PaginaAsistencia /> },
           { path: 'asistencia/revision', element: <PaginaRevisionMarcas /> },
           { path: 'asistencia/correcciones', element: <PaginaCorrecciones /> },
+          { path: 'nomina', element: <PaginaNomina /> },
+          { path: 'nomina/grupos', element: <PaginaGrupos /> },
+          { path: 'nomina/:id', element: <PaginaDetalleQuincena /> },
           { path: 'configuracion', element: <PaginaConfiguracionCentro /> },
         ],
       },
@@ -63,6 +70,7 @@ export const enrutador = createBrowserRouter([
         children: [
           { index: true, element: <PaginaInicioEmpleado /> },
           { path: 'asistencia', element: <PaginaMarcarAsistencia /> },
+          { path: 'quincenas', element: <PaginaMisQuincenas /> },
           { path: 'perfil', element: <PaginaMiPerfil /> },
         ],
       },

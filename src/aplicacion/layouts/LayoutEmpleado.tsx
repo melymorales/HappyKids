@@ -7,6 +7,7 @@ export function LayoutEmpleado() {
       enlaces={[
         { a: '/empleado', texto: 'Inicio', exacto: true },
         { a: '/empleado/asistencia', texto: 'Asistencia' },
+        { a: '/empleado/quincenas', texto: 'Mis quincenas' },
         { a: '/empleado/perfil', texto: 'Mi perfil' },
       ]}
     />

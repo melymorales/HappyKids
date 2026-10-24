@@ -8,6 +8,7 @@ export function LayoutAdministradora() {
         { a: '/administradora', texto: 'Panel', exacto: true },
         { a: '/administradora/empleados', texto: 'Empleados' },
         { a: '/administradora/asistencia', texto: 'Asistencia' },
+        { a: '/administradora/nomina', texto: 'Nómina' },
         { a: '/administradora/configuracion', texto: 'Configuración' },
       ]}
     />
