@@ -5,6 +5,8 @@ import { PaginaInicio } from '@/aplicacion/paginas/PaginaInicio'
 import { PaginaNoEncontrada } from '@/aplicacion/paginas/PaginaNoEncontrada'
 import { PaginaAsistencia } from '@/funcionalidades/asistencia/administradora/PaginaAsistencia'
 import { PaginaConfiguracionCentro } from '@/funcionalidades/asistencia/administradora/PaginaConfiguracionCentro'
+import { PaginaCorrecciones } from '@/funcionalidades/asistencia/administradora/PaginaCorrecciones'
+import { PaginaRevisionMarcas } from '@/funcionalidades/asistencia/administradora/PaginaRevisionMarcas'
 import { PaginaMarcarAsistencia } from '@/funcionalidades/asistencia/empleado/PaginaMarcarAsistencia'
 import { PaginaCambiarClave } from '@/funcionalidades/autenticacion/paginas/PaginaCambiarClave'
 import { PaginaIngresar } from '@/funcionalidades/autenticacion/paginas/PaginaIngresar'
@@ -43,6 +45,8 @@ export const enrutador = createBrowserRouter([
           { path: 'empleados/nuevo', element: <PaginaNuevoEmpleado /> },
           { path: 'empleados/:id', element: <PaginaDetalleEmpleado /> },
           { path: 'asistencia', element: <PaginaAsistencia /> },
+          { path: 'asistencia/revision', element: <PaginaRevisionMarcas /> },
+          { path: 'asistencia/correcciones', element: <PaginaCorrecciones /> },
           { path: 'configuracion', element: <PaginaConfiguracionCentro /> },
         ],
       },

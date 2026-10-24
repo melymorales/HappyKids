@@ -5,6 +5,9 @@ import {
   cambiarEstadoRed,
   detectarMiRed,
   registrarMarca,
+  resolverCorreccion,
+  revisarMarca,
+  solicitarCorreccion,
 } from '@/funcionalidades/asistencia/consultas/asistencia'
 import { clavesAsistencia } from '@/funcionalidades/asistencia/ganchos/useConsultasAsistencia'
 import type { PosicionMarca, TipoMarca } from '@/funcionalidades/asistencia/tipos'
@@ -22,6 +25,21 @@ export function useRegistrarMarca() {
       registrarMarca(datos.tipo, datos.posicion),
     onSuccess: refrescar,
   })
+}
+
+export function useSolicitarCorreccion() {
+  const refrescar = useRefrescarAsistencia()
+  return useMutation({ mutationFn: solicitarCorreccion, onSuccess: refrescar })
+}
+
+export function useResolverCorreccion() {
+  const refrescar = useRefrescarAsistencia()
+  return useMutation({ mutationFn: resolverCorreccion, onSuccess: refrescar })
+}
+
+export function useRevisarMarca() {
+  const refrescar = useRefrescarAsistencia()
+  return useMutation({ mutationFn: revisarMarca, onSuccess: refrescar })
 }
 
 export function useActualizarCentro() {

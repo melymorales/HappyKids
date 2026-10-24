@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react'
 interface Props {
   id: string
   etiqueta: string
-  tipo?: 'text' | 'email' | 'password' | 'date'
+  tipo?: 'text' | 'email' | 'password' | 'date' | 'time'
   valor: string
   alCambiar: (valor: string) => void
   autoComplete?: string

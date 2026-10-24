@@ -10,6 +10,7 @@ interface Props {
   alConfirmar: () => void
   alCancelar: () => void
   procesando?: boolean
+  confirmarDeshabilitado?: boolean
 }
 
 /**
@@ -25,6 +26,7 @@ export function DialogoConfirmacion({
   alConfirmar,
   alCancelar,
   procesando = false,
+  confirmarDeshabilitado = false,
 }: Props) {
   const referencia = useRef<HTMLDialogElement>(null)
   const idTitulo = useId()
@@ -54,7 +56,7 @@ export function DialogoConfirmacion({
         <BotonSecundario alPulsar={alCancelar} deshabilitado={procesando}>
           Cancelar
         </BotonSecundario>
-        <BotonMorado alPulsar={alConfirmar} deshabilitado={procesando}>
+        <BotonMorado alPulsar={alConfirmar} deshabilitado={procesando || confirmarDeshabilitado}>
           {procesando ? 'Procesando…' : textoConfirmar}
         </BotonMorado>
       </div>
