@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { CampoSeleccion } from '@/compartido/componentes/CampoSeleccion'
 import { CampoTexto } from '@/compartido/componentes/CampoTexto'
+import { CeldaTabla, FilaTabla, TablaAdaptable } from '@/compartido/componentes/TablaAdaptable'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { formatoDuracion } from '@/compartido/utilidades/formatoDuracion'
 import { fechaHoyCR, formatoFechaHora, sumarDias } from '@/compartido/utilidades/formatoFechas'
@@ -86,26 +87,15 @@ export function PaginaAsistencia() {
               <p className="text-suave">No hay marcas en estas fechas.</p>
             )}
             {resumen.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr className="border-b-2 border-pastel-lavanda text-suave">
-                      <th className="py-2 pr-4 font-semibold">Empleado</th>
-                      <th className="py-2 pr-4 font-semibold">Horas totales</th>
-                      <th className="py-2 font-semibold">Jornadas incompletas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resumen.map((r) => (
-                      <tr key={r.id} className="border-b border-pastel-lavanda last:border-b-0">
-                        <td className="py-2 pr-4">{r.nombre}</td>
-                        <td className="py-2 pr-4">{formatoDuracion(r.minutos)}</td>
-                        <td className="py-2">{r.incompletas}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <TablaAdaptable encabezados={['Empleado', 'Horas totales', 'Jornadas incompletas']}>
+                {resumen.map((r) => (
+                  <FilaTabla key={r.id}>
+                    <CeldaTabla etiqueta="Empleado">{r.nombre}</CeldaTabla>
+                    <CeldaTabla etiqueta="Horas totales">{formatoDuracion(r.minutos)}</CeldaTabla>
+                    <CeldaTabla etiqueta="Jornadas incompletas">{r.incompletas}</CeldaTabla>
+                  </FilaTabla>
+                ))}
+              </TablaAdaptable>
             )}
           </Tarjeta>
 
@@ -122,37 +112,31 @@ export function PaginaAsistencia() {
             )}
             {marcas.data && marcas.data.length === 0 && <p className="text-suave">No hay marcas en estas fechas.</p>}
             {marcas.data && marcas.data.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr className="border-b-2 border-pastel-lavanda text-suave">
-                      <th className="py-2 pr-4 font-semibold">Fecha y hora</th>
-                      <th className="py-2 pr-4 font-semibold">Empleado</th>
-                      <th className="py-2 pr-4 font-semibold">Tipo</th>
-                      <th className="py-2 pr-4 font-semibold">Ubicación</th>
-                      <th className="py-2 pr-4 font-semibold">Distancia</th>
-                      <th className="py-2 font-semibold">Red (IP)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {marcas.data.map((m) => (
-                      <tr key={m.id} className="border-b border-pastel-lavanda last:border-b-0">
-                        <td className="py-2 pr-4">{formatoFechaHora(m.marcada_en)}</td>
-                        <td className="py-2 pr-4">{m.nombre_completo}</td>
-                        <td className="py-2 pr-4">{m.tipo === 'entrada' ? 'Entrada' : 'Salida'}</td>
-                        <td className="py-2 pr-4">
-                          <InsigniaUbicacion bandera={m.bandera_ubicacion} />
-                        </td>
-                        <td className="py-2 pr-4">{m.distancia_m === null ? '—' : `${m.distancia_m} m`}</td>
-                        <td className="py-2">{m.ip_origen}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <TablaAdaptable
+                encabezados={['Fecha y hora', 'Empleado', 'Tipo', 'Ubicación', 'Distancia', 'Red (IP)']}
+              >
+                {marcas.data.map((m) => (
+                  <FilaTabla key={m.id}>
+                    <CeldaTabla etiqueta="Fecha y hora">{formatoFechaHora(m.marcada_en)}</CeldaTabla>
+                    <CeldaTabla etiqueta="Empleado">{m.nombre_completo}</CeldaTabla>
+                    <CeldaTabla etiqueta="Tipo">{m.tipo === 'entrada' ? 'Entrada' : 'Salida'}</CeldaTabla>
+                    <CeldaTabla etiqueta="Ubicación">
+                      <InsigniaUbicacion bandera={m.bandera_ubicacion} />
+                    </CeldaTabla>
+                    <CeldaTabla etiqueta="Distancia">
+                      {m.distancia_m === null ? '—' : `${m.distancia_m} m`}
+                    </CeldaTabla>
+                    <CeldaTabla etiqueta="Red (IP)">
+                      <span className="break-all">{m.ip_origen}</span>
+                    </CeldaTabla>
+                  </FilaTabla>
+                ))}
+              </TablaAdaptable>
             )}
             {marcas.data && marcas.data.length === 500 && (
-              <p className="mt-3 text-sm text-suave">Se muestran las 500 marcas más recientes. Acorta el rango de fechas para ver las demás.</p>
+              <p className="mt-3 text-sm text-suave">
+                Se muestran las 500 marcas más recientes. Acorta el rango de fechas para ver las demás.
+              </p>
             )}
           </Tarjeta>
         </>

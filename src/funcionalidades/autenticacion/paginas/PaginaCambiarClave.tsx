@@ -41,7 +41,7 @@ export function PaginaCambiarClave() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-7 py-10">
+    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center gap-6 px-7 py-10">
       <Logotipo className="text-center text-4xl" />
 
       <form onSubmit={alEnviar} className="flex flex-col gap-4">

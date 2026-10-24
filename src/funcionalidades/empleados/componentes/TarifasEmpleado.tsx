@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CeldaTabla, FilaTabla, TablaAdaptable } from '@/compartido/componentes/TablaAdaptable'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { formatoColones } from '@/compartido/utilidades/formatoColones'
 import { formatoFechaCalendario } from '@/compartido/utilidades/formatoFechas'
@@ -40,32 +41,20 @@ export function TarifasEmpleado({ empleado }: Props) {
         </p>
       )}
       {tarifas && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b-2 border-pastel-lavanda text-suave">
-                <th className="py-2 pr-4 font-semibold">Desde</th>
-                <th className="py-2 pr-4 font-semibold">Hasta</th>
-                <th className="py-2 pr-4 font-semibold">Modalidad</th>
-                <th className="py-2 font-semibold">Tarifa</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tarifas.map((t) => (
-                <tr key={t.id} className="border-b border-pastel-lavanda">
-                  <td className="py-2 pr-4">{formatoFechaCalendario(t.vigente_desde)}</td>
-                  <td className="py-2 pr-4">
-                    {t.vigente_hasta ? formatoFechaCalendario(t.vigente_hasta) : 'Sin fecha de fin'}
-                  </td>
-                  <td className="py-2 pr-4">{etiquetaModalidad(t.modalidad_pago)}</td>
-                  <td className="py-2">
-                    {formatoColones(t.tarifa_crc)} {unidadModalidad(t.modalidad_pago)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <TablaAdaptable encabezados={['Desde', 'Hasta', 'Modalidad', 'Tarifa']}>
+          {tarifas.map((t) => (
+            <FilaTabla key={t.id}>
+              <CeldaTabla etiqueta="Desde">{formatoFechaCalendario(t.vigente_desde)}</CeldaTabla>
+              <CeldaTabla etiqueta="Hasta">
+                {t.vigente_hasta ? formatoFechaCalendario(t.vigente_hasta) : 'Sin fecha de fin'}
+              </CeldaTabla>
+              <CeldaTabla etiqueta="Modalidad">{etiquetaModalidad(t.modalidad_pago)}</CeldaTabla>
+              <CeldaTabla etiqueta="Tarifa">
+                {formatoColones(t.tarifa_crc)} {unidadModalidad(t.modalidad_pago)}
+              </CeldaTabla>
+            </FilaTabla>
+          ))}
+        </TablaAdaptable>
       )}
 
       <div aria-live="polite">

@@ -3,7 +3,7 @@ export function PantallaCarga() {
     <main
       role="status"
       aria-live="polite"
-      className="flex min-h-screen items-center justify-center text-suave"
+      className="flex min-h-dvh items-center justify-center text-suave"
     >
       Cargando…
     </main>

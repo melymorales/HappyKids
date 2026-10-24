@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function PaginaNoEncontrada() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
       <h1 className="text-3xl">No encontramos esta página</h1>
       <p className="text-suave">Revisa la dirección o vuelve al inicio.</p>
       <Link

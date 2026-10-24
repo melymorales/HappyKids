@@ -26,7 +26,7 @@ export function PanelClaveTemporal({ titulo, clave, alCerrar }: Props) {
       <p className="mt-1 text-sm">
         Entrégala a la persona. Deberá cambiarla al ingresar y no se volverá a mostrar.
       </p>
-      <p className="my-3 select-all rounded-xl bg-white px-4 py-3 text-center font-mono text-2xl tracking-wider">
+      <p className="my-3 select-all break-all rounded-xl bg-white px-3 py-3 text-center font-mono text-xl tracking-wide sm:px-4 sm:text-2xl sm:tracking-wider">
         {clave}
       </p>
       <div className="flex flex-wrap gap-2">

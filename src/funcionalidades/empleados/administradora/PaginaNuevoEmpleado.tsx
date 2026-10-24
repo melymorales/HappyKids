@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BotonSecundario } from '@/compartido/componentes/BotonSecundario'
 import { Tarjeta } from '@/compartido/componentes/Tarjeta'
 import { FormularioEmpleado } from '@/funcionalidades/empleados/componentes/FormularioEmpleado'
@@ -16,6 +16,7 @@ interface EmpleadoCreado {
 }
 
 export function PaginaNuevoEmpleado() {
+  const navegar = useNavigate()
   const crear = useCrearEmpleado()
   const [error, setError] = useState<string | null>(null)
   const [creado, setCreado] = useState<EmpleadoCreado | null>(null)
@@ -56,7 +57,7 @@ export function PaginaNuevoEmpleado() {
         <Tarjeta>
           <p className="mb-4">
             <strong>{creado.nombre}</strong> ya puede ingresar al sistema con el correo{' '}
-            <strong>{creado.correo}</strong>.
+            <strong className="break-all">{creado.correo}</strong>.
           </p>
           <PanelClaveTemporal titulo="Contraseña temporal" clave={creado.clave} />
           <div className="mt-5 flex flex-wrap gap-3">
@@ -91,6 +92,7 @@ export function PaginaNuevoEmpleado() {
           error={error}
           textoBoton="Crear empleado"
           alEnviar={(valores) => void alEnviar(valores)}
+          alCancelar={() => navegar('/administradora/empleados')}
         />
       </Tarjeta>
     </section>

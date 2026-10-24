@@ -31,7 +31,7 @@ export function PaginaIngresar() {
   const mensajeVisible = error ?? errorAcceso
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col">
+    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
       <div className="flex h-[300px] flex-col items-center justify-center gap-1 rounded-b-[36px] bg-pastel-lavanda">
         <Astronauta className="h-36 w-auto" />
         <Logotipo className="text-4xl" />
