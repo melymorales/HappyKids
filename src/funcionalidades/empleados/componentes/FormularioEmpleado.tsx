@@ -84,6 +84,11 @@ export function FormularioEmpleado({ modo, inicial, enviando, error, textoBoton,
         tipo="date"
         valor={valores.fecha_ingreso}
         alCambiar={(v) => cambiar('fecha_ingreso', v)}
+        ayuda={
+          modo === 'editar'
+            ? 'Si la adelantas, la primera tarifa también empieza en esa fecha.'
+            : 'Desde esta fecha aplica la primera tarifa.'
+        }
       />
 
       {modo === 'crear' && (
@@ -101,6 +106,7 @@ export function FormularioEmpleado({ modo, inicial, enviando, error, textoBoton,
             valor={valores.tarifa}
             alCambiar={(v) => cambiar('tarifa', v)}
             modoEntrada="numeric"
+            placeholder="2000"
             ayuda="Solo números enteros, sin decimales."
           />
         </>

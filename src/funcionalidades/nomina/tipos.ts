@@ -35,6 +35,8 @@ export interface FilaCalculo {
   cantidad_grupos: number
   monto_crc: number
   advertencia: string | null
+  /** Minutos trabajados en días sin ninguna tarifa vigente (no se pagan). */
+  minutos_sin_tarifa: number
 }
 
 /** Fila de la vista `periodos_resumen`. */

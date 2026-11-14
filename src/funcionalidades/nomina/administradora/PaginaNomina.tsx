@@ -35,6 +35,10 @@ export function PaginaNomina() {
     [calculo.data],
   )
   const hayFilas = (calculo.data ?? []).length > 0
+  // Horas en días sin tarifa: no se están pagando, así que no se permite guardar así.
+  const hayHorasSinTarifa = (calculo.data ?? []).some(
+    (f) => f.modalidad_pago === 'por_hora' && f.minutos_sin_tarifa > 0,
+  )
 
   async function guardarQuincena() {
     setConfirmando(false)
@@ -111,7 +115,13 @@ export function PaginaNomina() {
                   </CeldaTabla>
                   <CeldaTabla etiqueta="Observaciones">
                     {f.advertencia ? (
-                      <span className="block rounded-xl bg-pastel-mantequilla px-3 py-2 text-left text-xs">
+                      <span
+                        className={`block rounded-xl px-3 py-2 text-left text-xs ${
+                          f.minutos_sin_tarifa > 0 && f.modalidad_pago === 'por_hora'
+                            ? 'bg-pastel-rosa font-semibold'
+                            : 'bg-pastel-mantequilla'
+                        }`}
+                      >
                         {f.advertencia}
                       </span>
                     ) : (
@@ -132,6 +142,12 @@ export function PaginaNomina() {
                 {formatoFechaCalendario(sumarDias(hasta, 1))}.
               </p>
             )}
+            {hayHorasSinTarifa && (
+              <p role="alert" className="rounded-xl bg-pastel-rosa px-4 py-3 text-sm">
+                Hay empleados con horas en días sin tarifa vigente: esas horas no se están pagando. Corrige la
+                fecha de ingreso en la ficha del empleado (Editar datos) antes de guardar la quincena.
+              </p>
+            )}
             {errorGuardado && (
               <p role="alert" className="rounded-xl bg-pastel-rosa px-4 py-3 text-sm">
                 {errorGuardado}
@@ -141,7 +157,7 @@ export function PaginaNomina() {
             <div>
               <BotonMorado
                 alPulsar={() => setConfirmando(true)}
-                deshabilitado={!terminada || guardar.isPending}
+                deshabilitado={!terminada || hayHorasSinTarifa || guardar.isPending}
               >
                 {guardar.isPending ? 'Guardando…' : 'Guardar quincena'}
               </BotonMorado>
